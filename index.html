@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FocusHerd</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
+</head>
+<body>
+  <div id="app">
+    <h1>⏱️ FocusHerd</h1>
+    <button id="login-btn">Login with Google</button>
+    <div id="timer" hidden>
+      <h2 id="countdown">25:00</h2>
+      <button id="start-btn">Start Focus</button>
+      <button id="reset-btn">Reset</button>
+    </div>
+  </div>
+  <script type="module" src="main.js"></script>
+</body>
+</html>
