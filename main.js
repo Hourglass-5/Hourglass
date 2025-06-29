@@ -6,7 +6,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyAHEtMKL29DvTfxDb9utrJiIFHPcqj9WHc",
   authDomain: "hourglass-e27f1.firebaseapp.com",
   projectId: "hourglass-e27f1",
-  storageBucket: "hourglass-e27f1.firebasestorage.app",
+  storageBucket: "hourglass-e27f1.appspot.com",
   messagingSenderId: "450410816837",
   appId: "1:450410816837:web:528f072c9cf0d4bf51ca2c"
 };
