@@ -1,10 +1,10 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { 
-  getAuth, 
-  signInWithRedirect, 
-  getRedirectResult, 
-  GoogleAuthProvider, 
-  onAuthStateChanged 
+  getAuth,
+  signInWithRedirect,
+  getRedirectResult,
+  GoogleAuthProvider,
+  onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
@@ -21,19 +21,18 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// Handle login button click - start redirect sign-in
-document.getElementById("login-btn").onclick = (event) => {
-  event.preventDefault();
+// Start Google Sign-In with redirect (for mobile compatibility)
+document.getElementById("login-btn").onclick = (e) => {
+  e.preventDefault();
   const provider = new GoogleAuthProvider();
   signInWithRedirect(auth, provider);
 };
 
-// Handle redirect result after sign-in
+// Handle redirect result after login
 getRedirectResult(auth)
   .then((result) => {
     if (result?.user) {
-      document.getElementById("login-btn").hidden = true;
-      document.getElementById("timer").hidden = false;
+      showTimerUI();
     }
   })
   .catch((error) => {
@@ -41,14 +40,20 @@ getRedirectResult(auth)
     alert("Login failed: " + error.message);
   });
 
-// Also listen for auth state changes (in case user was already logged in)
-onAuthStateChanged(auth, user => {
+// Detect login state change and update UI
+onAuthStateChanged(auth, (user) => {
   if (user) {
-    document.getElementById("login-btn").hidden = true;
-    document.getElementById("timer").hidden = false;
+    showTimerUI();
   }
 });
 
+// Show the timer UI
+function showTimerUI() {
+  document.getElementById("login-btn").hidden = true;
+  document.getElementById("timer").hidden = false;
+}
+
+// Timer logic
 let interval;
 let timeLeft = 25 * 60;
 
