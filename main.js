@@ -1,5 +1,11 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { 
+  getAuth, 
+  signInWithRedirect, 
+  getRedirectResult, 
+  GoogleAuthProvider, 
+  onAuthStateChanged 
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -15,11 +21,27 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-document.getElementById("login-btn").onclick = async () => {
+// Handle login button click - start redirect sign-in
+document.getElementById("login-btn").onclick = (event) => {
+  event.preventDefault();
   const provider = new GoogleAuthProvider();
-  await signInWithPopup(auth, provider);
+  signInWithRedirect(auth, provider);
 };
 
+// Handle redirect result after sign-in
+getRedirectResult(auth)
+  .then((result) => {
+    if (result?.user) {
+      document.getElementById("login-btn").hidden = true;
+      document.getElementById("timer").hidden = false;
+    }
+  })
+  .catch((error) => {
+    console.error("Login redirect error:", error);
+    alert("Login failed: " + error.message);
+  });
+
+// Also listen for auth state changes (in case user was already logged in)
 onAuthStateChanged(auth, user => {
   if (user) {
     document.getElementById("login-btn").hidden = true;
